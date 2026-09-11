@@ -26,7 +26,7 @@ Open http://127.0.0.1:4173. You can also open `dist/index.html` directly to revi
 
 1. Confirm the business name. **Fieldwork Growth is a working name**, not a registered or trademark-cleared identity. Update the visible name, title, metadata, favicon, footer, download copy, and README if it changes.
 2. Fill in a real booking or inquiry destination in `dist/config.js` (see below).
-3. Confirm the Meridian founder experience and operational service scope. No performance metrics, contractor results, client logos, or testimonials have been invented. Meridian is explicitly described as a consumer app, not contractor proof.
+3. Confirm the operational service scope. No performance metrics, contractor results, client logos, or testimonials have been invented.
 4. Keep service pricing off-page until the pilot scope is discussed. The page says “Pilot programs available” and distinguishes ad spend from the service fee.
 5. Replace `noindex,nofollow` with `index,follow` once the name, delivery integration, and public domain are final. Add an absolute canonical URL, matching `og:url`, and a sitemap for the final public domain. The private review version intentionally excludes search indexing.
 6. Confirm the short form privacy statement matches your actual handling of inquiries; add your business privacy policy if appropriate to your production setup.
