@@ -14,12 +14,13 @@ Open http://127.0.0.1:4173. You can also open `dist/index.html` directly to revi
 
 ## Files
 
-- `dist/index.html`: complete page, copy, metadata, and embedded favicon.
+- `dist/index.html`: complete page, copy, metadata, and favicon reference.
 - `dist/styles.css`: responsive styles, including reduced-motion and keyboard-focus states.
 - `dist/app.js`: mobile navigation, niche selection, form validation, delivery states, and request download.
 - `dist/config.js`: booking and contact settings.
 - `dist/assets/marine-dock.jpg`: optimized, AI-generated illustrative dock image; not a client project or case study.
-- `dist/favicon.svg`: replaceable working brand favicon. Update the embedded favicon in the HTML too when branding changes.
+- `dist/assets/fieldwork-growth-logo.png`: the transparent Fieldwork Growth logo used in the header and footer.
+- `dist/favicon.svg`: a simplified geometric F mark matching the new logo.
 - `.openai/hosting.json`: private Sites preview identity and static asset directory.
 
 ## Finalize before public launch
