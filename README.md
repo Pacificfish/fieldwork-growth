@@ -50,6 +50,27 @@ Test a real inquiry from the deployed domain before sending prospects to the sit
 
 ## Deploy
 
+### Railway (current host)
+
+Website: https://website-production-1c68.up.railway.app
+
+Project: https://railway.com/project/082ddf4a-3e6c-4fd9-9da1-568870e26fd6
+
+The `website` service in the `fieldwork-growth` project serves the unchanged `dist/` assets with Caddy. `Dockerfile`, `Caddyfile`, and `railway.json` define the production server and health check. Railway terminates HTTPS; Caddy listens on the assigned `PORT` (8080 by default). Only public website assets are copied into the container.
+
+To link a new local checkout and deploy updates:
+
+```sh
+railway link --project 082ddf4a-3e6c-4fd9-9da1-568870e26fd6 --environment production --service website
+railway up --service website
+```
+
+The Railway deployment is public. The previous Sites URL remains an owner-private review copy; Railway updates do not automatically update that copy. No database, volume, or paid add-on was added. Hosting uses the existing Railway account and its usage billing.
+
+The inquiry form remains in preview mode until `dist/config.js` has a real destination. Search indexing remains disabled until the business identity and contact integration are finalized, as described above.
+
+Deployment references: [Railway CLI deployment](https://docs.railway.com/cli/deploying), [Caddy static files](https://caddyserver.com/docs/caddyfile/directives/file_server).
+
 ### Static hosting
 
 Upload the contents of `dist/` to any static host, or select `dist` as the publish/output directory with no build command. A separate backend or external form service is required for submissions. All image, script, and stylesheet paths are relative. No SPA rewrite is needed.
