@@ -1,6 +1,6 @@
-/* Fill in your real destination before accepting inquiries. Never put secrets here. */
+/* Public form-delivery settings; never put secrets here. */
 window.FIELDWORK_CONFIG = {
   bookingUrl: '',
-  formEndpoint: '',
-  contactEmail: ''
+  formEndpoint: 'https://formsubmit.co/ajax/everett@fieldwork-growth.com',
+  contactEmail: 'everett@fieldwork-growth.com'
 };

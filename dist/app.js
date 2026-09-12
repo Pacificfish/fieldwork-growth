@@ -10,6 +10,7 @@ document.querySelector('#year').textContent = String(new Date().getFullYear());
 const config = window.FIELDWORK_CONFIG || {};
 function safeWebUrl(value) { try { const url = new URL(value, location.href); return ['https:', 'http:'].includes(url.protocol) && (url.protocol === 'https:' || url.origin === location.origin) && !url.username && !url.password ? url.href : ''; } catch { return ''; } }
 const endpoint = config.formEndpoint ? safeWebUrl(config.formEndpoint) : '';
+const usesFormSubmit = endpoint && new URL(endpoint).hostname === 'formsubmit.co';
 const bookingUrl = config.bookingUrl ? safeWebUrl(config.bookingUrl) : '';
 const email = /^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(config.contactEmail || '') ? config.contactEmail : '';
 const form = document.querySelector('#contact-form');
@@ -39,14 +40,20 @@ form.addEventListener('submit', async event => {
     else showStatus('Preview complete. Nothing has been sent or booked. Online inquiries are not connected yet; you can save a copy of this request below.');
     return;
   }
+  const payload = usesFormSubmit ? { ...data, _subject: 'New fit call request — Fieldwork Growth', _template: 'table', _replyto: data.email, _honey: data.website_url, _url: location.origin + location.pathname } : data;
   const previousLabel = submitLabel.textContent;
   submitButton.disabled = true;
   submitLabel.textContent = 'Sending your request…';
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
   try {
-    const response = await fetch(endpoint, {method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data),signal:controller.signal});
+    const response = await fetch(endpoint, {method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload),signal:controller.signal});
     if (!response.ok) throw new Error('Submission failed');
+    if (usesFormSubmit) {
+      const result = await response.json();
+      if (result.success !== true && result.success !== 'true') throw new Error('Submission not accepted');
+      if (/activat|confirm your email/i.test(result.message || '')) throw new Error('Email destination is not active');
+    }
     showStatus('Your request has been received. We’ll follow up using the details you shared to arrange a fit call. No appointment has been booked yet.');
     form.reset();
   } catch {
