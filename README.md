@@ -58,12 +58,38 @@ Project: https://railway.com/project/082ddf4a-3e6c-4fd9-9da1-568870e26fd6
 
 The `website` service in the `fieldwork-growth` project serves the unchanged `dist/` assets with Caddy. `Dockerfile`, `Caddyfile`, and `railway.json` define the production server and health check. Railway terminates HTTPS; Caddy listens on the assigned `PORT` (8080 by default). Only public website assets are copied into the container.
 
-To link a new local checkout and deploy updates:
+### GitHub source and automatic deployment
+
+Repository: https://github.com/Pacificfish/fieldwork-growth (private)
+
+Production branch: `main`
+
+The repository is ready. Railway's GitHub app must be granted access to `Pacificfish/fieldwork-growth` before the existing `website` service can use it as its source. The first connection attempt was rejected with “User does not have access to the repo”; the current deployment still runs from the earlier local upload.
+
+After granting access, connect the existing service using its Source settings, or a current Railway CLI:
+
+```sh
+railway service source connect --repo Pacificfish/fieldwork-growth --branch main --service website --environment production --project 082ddf4a-3e6c-4fd9-9da1-568870e26fd6
+```
+
+Once the connection is enabled, pushes to `main` trigger Railway deployments. Use the existing service so its Railway URL and custom domain remain attached. `Dockerfile` and `railway.json` are already in the repository.
+
+For local changes:
+
+```sh
+git clone https://github.com/Pacificfish/fieldwork-growth.git
+cd fieldwork-growth
+# Make and review changes, then commit and push main.
+```
+
+Direct-upload fallback, if explicitly needed:
 
 ```sh
 railway link --project 082ddf4a-3e6c-4fd9-9da1-568870e26fd6 --environment production --service website
 railway up --service website
 ```
+
+Reference: [Railway GitHub autodeploys](https://docs.railway.com/deployments/github-autodeploys).
 
 The Railway deployment is public. The previous Sites URL remains an owner-private review copy; Railway updates do not automatically update that copy. No database, volume, or paid add-on was added. Hosting uses the existing Railway account and its usage billing.
 
