@@ -34,7 +34,7 @@ Open http://127.0.0.1:4173. You can also open `dist/index.html` directly to revi
 
 ## Booking and inquiry delivery
 
-The form is configured to deliver inquiries through FormSubmit to **everett@fieldwork-growth.com**. FormSubmit requires a one-time activation email before forwarding submissions. Submit a setup inquiry from the live website, open the activation email in that inbox (check spam), and confirm the destination. Then submit a second test and verify it arrives. Until that final inbox check, delivery is not verified.
+The form is configured to deliver inquiries through FormSubmit to **everett@fieldwork-growth.com**. FormSubmit requires a one-time activation email before forwarding submissions. Submit a setup inquiry from the live website, open the activation email in that inbox (check spam), and confirm the destination. Then submit a second test and verify it arrives. The initial setup inquiry was confirmed in the destination inbox on September 11, 2026. A second submission after activation returned the correct received confirmation and cleared the form.
 
 A direct email link is also available below the form. No mailbox password or mail-reading access is needed.
 
@@ -105,7 +105,7 @@ Reference: [Railway GitHub autodeploys](https://docs.railway.com/deployments/git
 
 The Railway deployment is public. The previous Sites URL remains an owner-private review copy; Railway updates do not automatically update that copy. No database, volume, or paid add-on was added. Hosting uses the existing Railway account and its usage billing.
 
-The inquiry form uses the FormSubmit destination in `dist/config.js`. Email activation and an inbox receipt test are required before relying on delivery. Search indexing remains disabled until the business identity and contact integration are finalized, as described above.
+The inquiry form uses the FormSubmit destination in `dist/config.js`. The destination has received the setup test inquiry; repeat an inbox receipt test after any destination change. Search indexing remains disabled until the business identity and contact integration are finalized, as described above.
 
 Deployment references: [Railway CLI deployment](https://docs.railway.com/cli/deploying), [Caddy static files](https://caddyserver.com/docs/caddyfile/directives/file_server).
 
@@ -129,7 +129,8 @@ Responsive layouts include 760px and 1050px breakpoints. The site uses semantic 
 
 - JavaScript syntax and local asset/anchor checks.
 - Desktop visual review and mobile layout review.
-- Inquiry preview validation and explicit unsent state.
+- Inquiry validation, preserved details on unconfirmed delivery, and success/reset behavior after activation.
+- Initial live test email receipt confirmed by the owner on September 11, 2026.
 - Mobile navigation, FAQ interactions, and image loading.
 
 Actual campaign execution, CRM workflows, response automation, and client calendars described in the offer are services to implement during onboarding, not functionality supplied by this marketing website.
