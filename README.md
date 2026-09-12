@@ -64,15 +64,15 @@ Repository: https://github.com/Pacificfish/fieldwork-growth (private)
 
 Production branch: `main`
 
-The repository is ready. Railway's GitHub app must be granted access to `Pacificfish/fieldwork-growth` before the existing `website` service can use it as its source. The first connection attempt was rejected with “User does not have access to the repo”; the current deployment still runs from the earlier local upload.
+The existing Railway `website` service is connected to `Pacificfish/fieldwork-growth` and deploys the `main` branch. Railway builds the website directly from GitHub.
 
-After granting access, connect the existing service using its Source settings, or a current Railway CLI:
+To restore this connection if needed, use the service Source settings or a current Railway CLI:
 
 ```sh
 railway service source connect --repo Pacificfish/fieldwork-growth --branch main --service website --environment production --project 082ddf4a-3e6c-4fd9-9da1-568870e26fd6
 ```
 
-Once the connection is enabled, pushes to `main` trigger Railway deployments. Use the existing service so its Railway URL and custom domain remain attached. `Dockerfile` and `railway.json` are already in the repository.
+Pushes to `main` trigger Railway deployments. Use the existing service so its Railway URL and custom domain remain attached. `Dockerfile` and `railway.json` are already in the repository.
 
 For local changes:
 
