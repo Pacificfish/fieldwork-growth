@@ -26,13 +26,17 @@ Open http://127.0.0.1:4173. You can also open `dist/index.html` directly to revi
 ## Finalize before public launch
 
 1. Confirm the business name. **Fieldwork Growth is a working name**, not a registered or trademark-cleared identity. Update the visible name, title, metadata, favicon, footer, download copy, and README if it changes.
-2. Fill in a real booking or inquiry destination in `dist/config.js` (see below).
+2. Activate the FormSubmit destination and verify an inquiry arrives in `everett@fieldwork-growth.com` (see below).
 3. Confirm the operational service scope. No performance metrics, contractor results, client logos, or testimonials have been invented.
 4. Keep service pricing off-page until the pilot scope is discussed. The page says “Pilot programs available” and distinguishes ad spend from the service fee.
 5. Replace `noindex,nofollow` with `index,follow` once the name, delivery integration, and public domain are final. Add an absolute canonical URL, matching `og:url`, and a sitemap for the final public domain. The private review version intentionally excludes search indexing.
 6. Confirm the short form privacy statement matches your actual handling of inquiries; add your business privacy policy if appropriate to your production setup.
 
 ## Booking and inquiry delivery
+
+The form is configured to deliver inquiries through FormSubmit to **everett@fieldwork-growth.com**. FormSubmit requires a one-time activation email before forwarding submissions. Submit a setup inquiry from the live website, open the activation email in that inbox (check spam), and confirm the destination. Then submit a second test and verify it arrives. Until that final inbox check, delivery is not verified.
+
+A direct email link is also available below the form. No mailbox password or mail-reading access is needed.
 
 Edit the three public settings in `dist/config.js`. These settings must never contain API keys or secrets.
 
@@ -46,19 +50,21 @@ The JSON fields are `name`, `company`, `email`, `phone`, `trade`, `territory`, `
 
 Server-side requirements: validate and bound every field, reject spam, rate-limit abuse, restrict allowed origins, and use appropriate retention/access controls. Browser validation and the honeypot are usability aids, not server security. The static site itself has no database, email sender, CRM integration, or automatic text messaging.
 
-Test a real inquiry from the deployed domain before sending prospects to the site. Verify receipt in the destination inbox/CRM, the error path, and the actual scheduling workflow. No live delivery could be tested without your destination.
+Test a real inquiry from the deployed domain before sending prospects to the site. Verify receipt in the destination inbox/CRM, the error path, and the actual scheduling workflow. The provider response is checked for acceptance and activation requirements; failed requests preserve the details. Replying to a received inquiry uses the visitor's email address. FormSubmit documentation: https://formsubmit.co/documentation and https://formsubmit.co/ajax-documentation.
 
 ## Deploy
 
 ### Railway (current host)
 
-Website: https://website-production-1c68.up.railway.app
+Website: https://www.fieldwork-growth.com
+
+Railway URL: https://website-production-1c68.up.railway.app
 
 Project: https://railway.com/project/082ddf4a-3e6c-4fd9-9da1-568870e26fd6
 
 The `website` service in the `fieldwork-growth` project serves the unchanged `dist/` assets with Caddy. `Dockerfile`, `Caddyfile`, and `railway.json` define the production server and health check. Railway terminates HTTPS; Caddy listens on the assigned `PORT` (8080 by default). Only public website assets are copied into the container.
 
-### GitHub source and automatic deployment
+### GitHub source and deployment
 
 Repository: https://github.com/Pacificfish/fieldwork-growth (private)
 
@@ -72,7 +78,13 @@ To restore this connection if needed, use the service Source settings or a curre
 railway service source connect --repo Pacificfish/fieldwork-growth --branch main --service website --environment production --project 082ddf4a-3e6c-4fd9-9da1-568870e26fd6
 ```
 
-Pushes to `main` trigger Railway deployments. Use the existing service so its Railway URL and custom domain remain attached. `Dockerfile` and `railway.json` are already in the repository.
+After pushing `main`, check that Railway deployed the new commit. If no deployment starts, explicitly deploy the latest GitHub source with a current CLI:
+
+```sh
+npx --yes --package @railway/cli@latest railway deployment redeploy --service website --environment production --from-source --yes
+```
+
+Use the existing service so its Railway URL and custom domain remain attached. `Dockerfile` and `railway.json` are already in the repository. Version the script and stylesheet URLs in `index.html` when updating these assets so returning visitors receive the current form settings.
 
 For local changes:
 
@@ -93,7 +105,7 @@ Reference: [Railway GitHub autodeploys](https://docs.railway.com/deployments/git
 
 The Railway deployment is public. The previous Sites URL remains an owner-private review copy; Railway updates do not automatically update that copy. No database, volume, or paid add-on was added. Hosting uses the existing Railway account and its usage billing.
 
-The inquiry form remains in preview mode until `dist/config.js` has a real destination. Search indexing remains disabled until the business identity and contact integration are finalized, as described above.
+The inquiry form uses the FormSubmit destination in `dist/config.js`. Email activation and an inbox receipt test are required before relying on delivery. Search indexing remains disabled until the business identity and contact integration are finalized, as described above.
 
 Deployment references: [Railway CLI deployment](https://docs.railway.com/cli/deploying), [Caddy static files](https://caddyserver.com/docs/caddyfile/directives/file_server).
 
